@@ -24,7 +24,7 @@ export function CodeBlock({ code, id }: Props) {
     <div className="group relative overflow-hidden rounded-lg border border-slate-200 shadow-sm">
       <div className="flex items-center justify-between gap-2 border-b border-slate-700/80 bg-[#1e293b] px-3 py-2 text-left text-xs text-slate-300">
         <span className="font-mono text-[11px] tracking-wide text-slate-400">
-          MATLAB · {id}
+          Python · {id}
         </span>
         <button
           type="button"
@@ -35,7 +35,7 @@ export function CodeBlock({ code, id }: Props) {
         </button>
       </div>
       <SyntaxHighlighter
-        language="matlab"
+        language="python"
         style={oneDark}
         customStyle={{
           margin: 0,

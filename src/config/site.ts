@@ -2,5 +2,5 @@
 export const SITE = {
   brandShort: 'ML',
   title: 'Hands-on ML',
-  tagline: 'MATLAB walkthroughs — tap a section to expand.',
+  tagline: 'Python / sklearn notes — tap a section to expand.',
 } as const

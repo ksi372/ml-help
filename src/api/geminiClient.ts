@@ -1,5 +1,13 @@
 /** Gemini REST — API key must come from env, never from source control. */
 
+const PYTHON_REPLY_RULES = `You answer ML / coding questions with **Python 3** only (numpy, pandas, scikit-learn, matplotlib, etc.). Never use MATLAB or other languages unless the user explicitly forbids Python.
+
+**Output format (mandatory, every time):**
+1) Start with a markdown heading exactly: ## Code
+2) Under it, put **one** fenced code block with language tag python. That block must contain **all executable code** and may include # comments inside. Do not put prose sentences inside the code block except short # comments.
+3) Then a markdown heading exactly: ## Explanation
+4) Under it, write plain explanation only: no fenced code blocks, no indented code, no triple backticks. Do not mix explanation into the code section or code into the explanation section.`
+
 export function getGeminiApiKey(): string {
   const raw = import.meta.env.VITE_GEMINI_API_KEY
   const key = typeof raw === 'string' ? raw.trim() : ''
@@ -27,10 +35,22 @@ export async function generateGeminiText(userMessage: string): Promise<string> {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: userMessage }] }],
+      systemInstruction: {
+        parts: [{ text: PYTHON_REPLY_RULES }],
+      },
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: userMessage,
+            },
+          ],
+        },
+      ],
       generationConfig: {
-        maxOutputTokens: 2048,
-        temperature: 0.4,
+        maxOutputTokens: 4096,
+        temperature: 0.35,
       },
     }),
   })

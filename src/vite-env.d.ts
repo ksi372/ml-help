@@ -5,7 +5,7 @@ interface ImportMetaEnv {
   readonly VITE_GEMINI_API_KEY?: string
 }
 
-declare module '*.m?raw' {
+declare module '*.py?raw' {
   const src: string
   export default src
 }
