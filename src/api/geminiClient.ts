@@ -1,10 +1,14 @@
-/** In-browser Gemini REST calls. Prefer env in production; fallback below if unset. */
-const HARDCODED_KEY = 'AIzaSyBhYgANQlY-MHlzbfemDh8qeyxOBdsm4O8'
+/** Gemini REST — API key must come from env, never from source control. */
 
 export function getGeminiApiKey(): string {
-  const fromEnv = import.meta.env.VITE_GEMINI_API_KEY
-  if (typeof fromEnv === 'string' && fromEnv.length > 0) return fromEnv
-  return HARDCODED_KEY
+  const raw = import.meta.env.VITE_GEMINI_API_KEY
+  const key = typeof raw === 'string' ? raw.trim() : ''
+  if (!key) {
+    throw new Error(
+      'Missing VITE_GEMINI_API_KEY. Add it to .env (local) or Render → Environment (production).',
+    )
+  }
+  return key
 }
 
 /** Swap to e.g. `gemini-1.5-flash` if your key rejects this model. */
@@ -24,7 +28,6 @@ export async function generateGeminiText(userMessage: string): Promise<string> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ parts: [{ text: userMessage }] }],
-      /** Shorter max reply = less generation time than an unbounded answer. */
       generationConfig: {
         maxOutputTokens: 2048,
         temperature: 0.4,
