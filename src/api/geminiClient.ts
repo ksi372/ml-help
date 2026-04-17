@@ -11,8 +11,8 @@ export function getGeminiApiKey(): string {
   return key
 }
 
-/** Swap to e.g. `gemini-1.5-flash` if your key rejects this model. */
-const MODEL = 'gemini-2.0-flash'
+/** See https://ai.google.dev/gemini-api/docs/models for current IDs. */
+const MODEL = 'gemini-3-flash-preview'
 
 function apiBase(): string {
   return import.meta.env.DEV
